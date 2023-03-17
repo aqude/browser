@@ -64,7 +64,7 @@ fun SettingsScreen(navController: NavHostController) {
                     .align(CenterVertically)
             ) {
                 IconButton(
-                    onClick = { navController.navigate(Screen.Search.route) },
+                    onClick = { navController.navigate(route = Screen.Search.route) },
                     modifier = Modifier
                         .background(Color.White, shape = RoundedCornerShape(20.dp))
                 ) {
@@ -107,7 +107,7 @@ fun InfoCard(titleText: String = "", text: String = "") {
             .padding(bottom = 20.dp)
             .animateContentSize(
                 animationSpec = tween(
-                    delayMillis = 300,
+                    delayMillis = 600,
                     easing = LinearOutSlowInEasing,
                 ),
             ),
@@ -122,7 +122,7 @@ fun InfoCard(titleText: String = "", text: String = "") {
                 .fillMaxWidth()
                 .padding(20.dp)
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(verticalAlignment = CenterVertically) {
                 Text(
                     text = titleText,
                     fontSize = MaterialTheme.typography.h6.fontSize,

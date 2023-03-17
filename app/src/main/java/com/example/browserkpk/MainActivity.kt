@@ -23,25 +23,5 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//@Composable
-//fun CircularButtonWithNavigation(navController: NavController) {
-//    Box(
-//        modifier = Modifier
-//            .size(60.dp)
-//            .clip(CircleShape)
-//            .background(Color.Blue)
-//            .clickable {
-//                navController.navigate("newComponent")
-//            },
-//        contentAlignment = Alignment.Center
-//    ) {
-//        Icon(
-//            painter = painterResource(id = R.drawable.baseline_settings_24),
-//            contentDescription = "Add",
-//            tint = Color.White
-//        )
-//    }
-//}
-
 
 
