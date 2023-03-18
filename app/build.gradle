@@ -48,6 +48,7 @@ android {
 
 dependencies {
     def nav_version = "2.5.3"
+    implementation "com.github.skydoves:colorpicker-compose:1.0.1"
 
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation 'androidx.core:core-ktx:1.7.0'
