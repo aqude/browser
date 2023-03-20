@@ -1,12 +1,13 @@
 package com.example.browserkpk.screens
 
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -32,6 +33,7 @@ import com.github.skydoves.colorpicker.compose.*
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SettingsScreen(navController: NavHostController) {
+    val lazyListState = rememberLazyListState()
 
 //    val background = painterResource(R.drawable.image_3)
 //    WallpaperSearch(background, navController = rememberNavController( ))
@@ -39,22 +41,40 @@ fun SettingsScreen(navController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Gray)
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 20.dp),
     )
     {
 
         TopBar(navController)
 
-        ColorPicker()
-
-        InfoCard(
-            "Test", "\n" +
-                    "Сегодня в 14:20 в актовом зале состоится встреча, на которой представители Волонтерского центра РТУ МИРЭА выступят с презентацией о выездных волонтёрских мероприятиях (35 летних поездок, затрагивающие каждый уголок нашей необъятной страны, направленные на сохранение культурного наследия) в 2023 году\uD83D\uDE0D"
-        )
-        InfoCard(
-            "Test", "\n" +
-                    "Сегодня в 14:20 в актовом зале состоится встреча, на которой представители Волонтерского центра РТУ МИРЭА выступят с презентацией о выездных волонтёрских мероприятиях (35 летних поездок, затрагивающие каждый уголок нашей необъятной страны, направленные на сохранение культурного наследия) в 2023 году\uD83D\uDE0D"
-        )
+//        ColorPicker()
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Gray)
+                .padding(horizontal = 20.dp),
+            state = lazyListState
+        ) {
+            item {
+                InfoCard(
+                    "Test", "\n" +
+                            "Сегодня в 14:20 в актовом зале состоится встреча, на которой представители Волонтерского центра РТУ МИРЭА выступят с презентацией о выездных волонтёрских мероприятиях (35 летних поездок, затрагивающие каждый уголок нашей необъятной страны, направленные на сохранение культурного наследия) в 2023 году\uD83D\uDE0D"
+                )
+            }
+            item {
+                InfoCard(
+                    "Test", "\n" +
+                            "Сегодня в 14:20 в актовом зале состоится встреча, на которой представители Волонтерского центра РТУ МИРЭА выступят с презентацией о выездных волонтёрских мероприятиях (35 летних поездок, затрагивающие каждый уголок нашей необъятной страны, направленные на сохранение культурного наследия) в 2023 году\uD83D\uDE0D"
+                )
+            }
+            item {
+                InfoCardSettings(
+                    "Измените цвет фона!", "Смените цвет фона"
+                ) {
+                    ColorPicker()
+                }
+            }
+        }
     }
 }
 
@@ -86,31 +106,20 @@ fun ColorPicker() {
                 .height(450.dp)
                 .padding(10.dp),
             controller = controller,
-            onColorChanged = {
-                Log.d("Color", it.hexCode)
-            }
-        )
-        AlphaSlider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .height(35.dp),
-            controller = controller,
-            tileOddColor = Color.White,
-            tileEvenColor = Color.Black
-        )
-        BrightnessSlider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .height(35.dp),
-            controller = controller,
         )
     }
 }
+
 @Composable
 fun ColorGetter() {
-    var colorSettings: ColorSettings by remember { mutableStateOf(ColorSettings(Color.DarkGray, Color.Gray)) }
+    var colorSettings: ColorSettings by remember {
+        mutableStateOf(
+            ColorSettings(
+                Color.DarkGray,
+                Color.Gray
+            )
+        )
+    }
     val controller = rememberColorPickerController()
 
 
@@ -133,6 +142,7 @@ fun ColorGetter() {
 //    }
 
 }
+
 @Composable
 fun TopBar(navController: NavHostController) {
     Row(
@@ -168,6 +178,71 @@ fun TopBar(navController: NavHostController) {
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "arrow back",
                     tint = Color.Black
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun InfoCardSettings(titleText: String, bottomInfo: String, composable: @Composable () -> Unit) {
+
+    var infoCardState by remember {
+        mutableStateOf(false)
+    }
+    val rotateState by animateFloatAsState(targetValue = if (infoCardState) 180f else 0f)
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 30.dp)
+            .padding(bottom = 20.dp)
+            .animateContentSize(
+                animationSpec = tween(
+                    delayMillis = 600,
+                    easing = LinearOutSlowInEasing,
+                ),
+            ),
+//        shape = Shapes.medium,
+        onClick = {
+            infoCardState = !infoCardState
+        }
+    )
+    {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+        ) {
+            Row(verticalAlignment = CenterVertically) {
+                Text(
+                    text = titleText,
+                    fontSize = MaterialTheme.typography.h6.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(10f)
+                )
+                IconButton(
+                    onClick = {
+                        infoCardState = !infoCardState
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .rotate(rotateState),
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Dropdown arrow"
+                    )
+                }
+            }
+            if (infoCardState) {
+                composable()
+                Text(
+                    text = bottomInfo, fontWeight = FontWeight.Normal,
+                    maxLines = 10,
+                    overflow = TextOverflow.Ellipsis,
+                    fontSize = MaterialTheme.typography.subtitle1.fontSize
                 )
             }
         }
