@@ -1,5 +1,6 @@
 package com.example.browserkpk.screens
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -14,7 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,11 +23,9 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.browserkpk.controller.ColorSettings
 import com.example.browserkpk.controller.Screen
 import com.github.skydoves.colorpicker.compose.*
 
@@ -34,13 +33,15 @@ import com.github.skydoves.colorpicker.compose.*
 @Composable
 fun SettingsScreen(navController: NavHostController) {
     val lazyListState = rememberLazyListState()
+    val hexColor: String = ColorPicker()
+    val color = Color(hexColor.toLong(16).toInt())
 
 //    val background = painterResource(R.drawable.image_3)
 //    WallpaperSearch(background, navController = rememberNavController( ))
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Gray)
+            .background(color)
             .padding(horizontal = 20.dp),
     )
     {
@@ -57,19 +58,24 @@ fun SettingsScreen(navController: NavHostController) {
         ) {
             item {
                 InfoCard(
-                    "Test", "\n" +
-                            "Сегодня в 14:20 в актовом зале состоится встреча, на которой представители Волонтерского центра РТУ МИРЭА выступят с презентацией о выездных волонтёрских мероприятиях (35 летних поездок, затрагивающие каждый уголок нашей необъятной страны, направленные на сохранение культурного наследия) в 2023 году\uD83D\uDE0D"
+                    "О бразуере", "\n" + "" +
+                            "Иновационный бразуер который умеет искать информацию!"
                 )
             }
             item {
                 InfoCard(
-                    "Test", "\n" +
-                            "Сегодня в 14:20 в актовом зале состоится встреча, на которой представители Волонтерского центра РТУ МИРЭА выступят с презентацией о выездных волонтёрских мероприятиях (35 летних поездок, затрагивающие каждый уголок нашей необъятной страны, направленные на сохранение культурного наследия) в 2023 году\uD83D\uDE0D"
+                    "О разработчиках", "\n" +
+                            "Приходит как-то Гитлер на совещание, а поперек комнаты стоит огромный железный ящик. Гитлер спрашивает у Мюллера:\n" +
+                            "- Это еще что такое?\n" +
+                            "- А... это Штирлиц установил новейшее советское компьютерное миниатюрное подслушивающее устройство, - пояснил Мюллер.\n" +
+                            "- А чего же вы его не вытащите отсюда, если уж обнаружили? - раскричался Гитлер.\n" +
+                            "- Мы бы, мой фюрер, с удовольствием! Только его никто поднять не может.\n"
+
                 )
             }
             item {
                 InfoCardSettings(
-                    "Измените цвет фона!", "Смените цвет фона"
+                    "Смените цвет фона!", "Смените цвет фона"
                 ) {
                     ColorPicker()
                 }
@@ -79,68 +85,43 @@ fun SettingsScreen(navController: NavHostController) {
 }
 
 @Composable
-fun ColorPicker() {
+fun ColorPicker(): String {
     val controller = rememberColorPickerController()
+    var selectedColor by remember { mutableStateOf(Color.Black) }
+    var colorHex by remember { mutableStateOf("FF3551FF") } // изменение цвета должно быть хранимым состоянием
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(all = 30.dp)
+            .padding(top = 20.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = CenterVertically
         ) {
             AlphaTile(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
                     .clip(RoundedCornerShape(6.dp)),
-                controller = controller
+                controller = controller,
             )
         }
         HsvColorPicker(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(450.dp)
-                .padding(10.dp),
-            controller = controller,
-        )
+                .height(300.dp),
+            controller = controller
+        ) { colorEnvelope: ColorEnvelope ->
+            selectedColor = colorEnvelope.color
+            colorHex = colorEnvelope.hexCode
+        }
+        Button(onClick = { Log.d("Color", colorHex)}) {
+            Text(text = "Сохранить")
+        }
     }
-}
-
-@Composable
-fun ColorGetter() {
-    var colorSettings: ColorSettings by remember {
-        mutableStateOf(
-            ColorSettings(
-                Color.DarkGray,
-                Color.Gray
-            )
-        )
-    }
-    val controller = rememberColorPickerController()
-
-
-//    HarmonyColorPicker(
-//        color = colorSettings.backgroundColor,
-//        onColorSelected = { colorSettings = colorSettings.copy(backgroundColor = it) }
-//    )
-//    ColorPicker(
-//        color = colorSettings.textColor,
-//        onColorSelected = { colorSettings = colorSettings.copy(textColor = it) }
-//    )
-//    Button(
-//        onClick = {
-//            // передача данных в основное окно
-//            navigator.popAndPush(MainScreen(colorSettings))
-//        },
-//        modifier = Modifier.padding(top = 16.dp)
-//    ) {
-//        Text("Сохранить")
-//    }
-
+    return colorHex // возвращаем выбранный цвет
 }
 
 @Composable
@@ -154,8 +135,6 @@ fun TopBar(navController: NavHostController) {
             modifier = Modifier
                 .weight(1f)
                 .align(CenterVertically)
-
-
         ) {
             Text(
                 text = " FAQ ",
@@ -239,10 +218,11 @@ fun InfoCardSettings(titleText: String, bottomInfo: String, composable: @Composa
             if (infoCardState) {
                 composable()
                 Text(
-                    text = bottomInfo, fontWeight = FontWeight.Normal,
-                    maxLines = 10,
+                    modifier = Modifier.align(CenterHorizontally),
+                    text = bottomInfo, fontWeight = FontWeight.Bold,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    fontSize = MaterialTheme.typography.subtitle1.fontSize
+                    fontSize = MaterialTheme.typography.h6.fontSize
                 )
             }
         }
@@ -305,7 +285,7 @@ fun InfoCard(titleText: String = "", text: String = "") {
                 Text(
                     text = text,
                     fontWeight = FontWeight.Normal,
-                    maxLines = 10,
+                    maxLines = 20,
                     overflow = TextOverflow.Ellipsis,
                     fontSize = MaterialTheme.typography.subtitle1.fontSize
                 )
@@ -316,7 +296,7 @@ fun InfoCard(titleText: String = "", text: String = "") {
 
 
 @Composable
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 fun SettingsScreenPreview() {
     SettingsScreen(navController = rememberNavController())
 }
