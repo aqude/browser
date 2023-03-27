@@ -34,18 +34,19 @@ fun WallpaperSearch(navController: NavController) {
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ScaffoldScreen(navController: NavController, background : Painter) {
+fun ScaffoldScreen(navController: NavController, background: Painter) {
     Scaffold(
-        topBar = { TopBarSettings(navController)},
+        topBar = { TopBarSettings(navController) },
         backgroundColor = Color.Black,
-        content = { MainContent(background) }
+        content = { MainContent(background, navController) }
     )
 }
+
 @Composable
 fun TopBarSettings(navController: NavController) {
     IconButton(
         modifier = Modifier,
-        onClick = { navController.navigate(route = Screen.Setting.route)  }
+        onClick = { navController.navigate(route = Screen.Search.route) }
     ) {
         Icon(
             Icons.Filled.Settings,
@@ -59,7 +60,7 @@ fun TopBarSettings(navController: NavController) {
 }
 
 @Composable
-fun MainContent(background: Painter) {
+fun MainContent(background: Painter, navController: NavController) {
     var searchLink by remember {
         mutableStateOf("")
     }
@@ -91,11 +92,12 @@ fun MainContent(background: Painter) {
                     modifier = Modifier.weight(1f),
                     value = searchLink,
                     onValueChange = { searchLink = it },
-                    maxLines = 30
+                    maxLines = 30,
+                    label = { Text(text = "Поиск") }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 IconButton(
-                    onClick = { /* Handle click */ },
+                    onClick = { navController.navigate(Screen.WebViewScreen.route) },
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     Icon(
