@@ -36,7 +36,7 @@ fun SetupNavGraph(
         composable(
             route = Screen.WebViewScreen.route,
             arguments = listOf(
-                navArgument("link") {
+                navArgument(LINK) {
                     type = NavType.StringType
                 }
             )

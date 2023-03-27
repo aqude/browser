@@ -13,9 +13,9 @@ sealed class Screen(val route: String) {
 
     object Search : Screen(route = "search_screen")
 
-    object WebViewScreen : Screen(route = "web_view_screen/{link}") {
+    object WebViewScreen : Screen(route = "web_view_screen/{$LINK}") {
         fun passLink(link: String = "test"): String {
-            return "view_screen?link=$link"
+            return "web_view_screen/$link"
         }
     }
 

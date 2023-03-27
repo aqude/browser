@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.browserkpk.controller.LINK
 import com.google.accompanist.web.*
 
 
@@ -22,20 +23,19 @@ import com.google.accompanist.web.*
 @Composable
 fun WebViewScreen(navController: NavHostController) {
 
-    BrowserWeb()
+    BrowserWeb(navController)
 }
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun BrowserWeb(
 // https://duckduckgo.com/?va=u&t=hc&q=
+    navController: NavHostController
 ) {
-    var query by remember {
-        mutableStateOf("")
-    }
+    val link = navController.currentBackStackEntry?.arguments?.getString(LINK)
 
     var url by remember {
-        mutableStateOf("https://duckduckgo.com/?va=u&t=hc&q=$query")
+        mutableStateOf("https://duckduckgo.com/?va=u&t=hc&q=$link")
     }
     val state = rememberWebViewState(url = url)
     val navigator = rememberWebViewNavigator()
