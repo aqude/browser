@@ -1,6 +1,7 @@
 package com.example.browserkpk.controller
 
 const val BACKGROUND_COLOR = "color"
+const val LINK = "link"
 
 sealed class Screen(val route: String) {
     object Setting : Screen(route = "setting_screen")
@@ -12,5 +13,11 @@ sealed class Screen(val route: String) {
 
     object Search : Screen(route = "search_screen")
 
-    object WebViewScreen : Screen(route = "web-view_screen")
+    object WebViewScreen : Screen(route = "web_view_screen/{link}") {
+        fun passLink(link: String = "test"): String {
+            return "view_screen?link=$link"
+        }
+    }
+
+
 }

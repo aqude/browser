@@ -2,8 +2,10 @@ package com.example.browserkpk.controller
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.browserkpk.screens.SettingsScreen
 import com.example.browserkpk.screens.WallpaperSearch
 import com.example.browserkpk.screens.WebViewScreen
@@ -32,7 +34,12 @@ fun SetupNavGraph(
             SettingsScreen(navController = navController)
         }
         composable(
-            route = Screen.WebViewScreen.route
+            route = Screen.WebViewScreen.route,
+            arguments = listOf(
+                navArgument("link") {
+                    type = NavType.StringType
+                }
+            )
         ) {
             WebViewScreen(navController = navController)
         }

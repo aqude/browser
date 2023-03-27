@@ -25,12 +25,17 @@ fun WebViewScreen(navController: NavHostController) {
     BrowserWeb()
 }
 
+@SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun BrowserWeb(
-
+// https://duckduckgo.com/?va=u&t=hc&q=
 ) {
+    var query by remember {
+        mutableStateOf("")
+    }
+
     var url by remember {
-        mutableStateOf("https://duckduckgo.com/")
+        mutableStateOf("https://duckduckgo.com/?va=u&t=hc&q=$query")
     }
     val state = rememberWebViewState(url = url)
     val navigator = rememberWebViewNavigator()

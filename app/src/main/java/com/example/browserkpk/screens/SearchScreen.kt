@@ -97,7 +97,7 @@ fun MainContent(background: Painter, navController: NavController) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 IconButton(
-                    onClick = { navController.navigate(Screen.WebViewScreen.route) },
+                    onClick = { navController.navigate(Screen.WebViewScreen.passLink(searchLink)) },
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     Icon(
