@@ -46,7 +46,7 @@ fun ScaffoldScreen(navController: NavController, background: Painter) {
 fun TopBarSettings(navController: NavController) {
     IconButton(
         modifier = Modifier,
-        onClick = { navController.navigate(route = Screen.Search.route) }
+        onClick = { navController.navigate(route = Screen.Setting.route) }
     ) {
         Icon(
             Icons.Filled.Settings,

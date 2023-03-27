@@ -1,12 +1,9 @@
 package com.example.browserkpk.controller
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.example.browserkpk.screens.SettingsScreen
 import com.example.browserkpk.screens.WallpaperSearch
 import com.example.browserkpk.screens.WebViewScreen
@@ -21,12 +18,12 @@ fun SetupNavGraph(
     ) {
         composable(
             route = Screen.Search.route,
-            arguments = listOf(navArgument(BACKGROUND_COLOR) {
-                type = NavType.StringType
-            })
+//            arguments = listOf(navArgument(BACKGROUND_COLOR) {
+//                type = NavType.StringType
+//            })
         ) {
             // TODO Нужно добавить настройку для смены цвета
-            Log.d("Color: ", it.arguments?.getString(BACKGROUND_COLOR).toString())
+//            Log.d("Color: ", it.arguments?.getString(BACKGROUND_COLOR).toString())
             WallpaperSearch(navController = navController)
         }
         composable(
