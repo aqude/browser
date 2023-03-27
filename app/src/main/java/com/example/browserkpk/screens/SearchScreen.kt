@@ -62,7 +62,7 @@ fun TopBarSettings(navController: NavController) {
 @Composable
 fun MainContent(background: Painter, navController: NavController) {
     var searchLink by remember {
-        mutableStateOf("")
+        mutableStateOf("Искать")
     }
     Box(
         modifier = Modifier.fillMaxSize()
